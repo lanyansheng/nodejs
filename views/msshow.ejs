@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>个人信息</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+     <!--<script src="/javascripts/nav.js" type="text/javascript" charset="utf-8"></script>-->
+</head>
+<body>
+	<%- include('head.ejs') %>
+	<p class='welcome_login'>尊敬的&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;老师,你好</p>
+	<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" ><a href="/home?status=1">学生成绩汇入</a></li>
+  <li role="presentation" class="active" id='message'><a href='#'>个人信息</a></li>
+  <li role="presentation"><a href="/home/liuyan">老师留言</a></li>
+</ul>
+							<!--个人信息显示区域-->
+<ul id='ul_mess'>
+	<li><span>姓名：</span><%- name %></li>
+	<li><span>年龄：</span><%- age %></li>
+	<li><span>科室：</span><%- subject %></li>
+	<li><span>年级：</span><%- grade %></li>
+</ul>
+<button type="button" class="btn btn-primary  message " onclick="location.href = '/home/message/change'">修改个人资料</button>
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>

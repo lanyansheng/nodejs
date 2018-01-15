@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>学生主页</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<%- include('head.ejs') %>
+	<p class='welcome_login'>欢迎回来！&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;同学</p>
+	<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" class="active" ><a href="#">个人信息</a></li>
+  <li role="presentation"  id='search_chengji'><a href='#'>学生成绩</a></li>
+  <li role="presentation"><a href='home/stuliuyan'>学生留言</a></li>
+</ul>
+							<!--学生个人信息展示区域-->
+<ul id='ul_mess'>
+	<li><span>姓名：</span><%- Name %></li>
+	<li><span>年龄：</span><%- Age %></li>
+	<li><span>年级：</span><%- Grade %></li>
+	<li><span>班级：</span><%- Class %></li>
+</ul>
+
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+<script type="text/javascript">
+	//  把账号对应的学生姓名，年级，班级保存，用来找对应成绩
+	var str = {} ;
+	str.Name = '<%- Name %>' ;
+	str.Grade = '<%- Grade %>';
+	str.Class = '<%- Class %>';
+	$("#search_chengji").click(function(){
+		$.ajax({
+			type:"post",
+			url:"/users/searchchengji",
+			data:{Name:str.Name,Grade:str.Grade,Class:str.Class},
+			success:function(data){
+				if(data == '1'){
+					alert('未找到成绩');					
+				}else{
+					var str = data ;
+					location.href='/home/showchengji?id='+str ;
+				}
+			}
+		});
+	})
+	//    把该学生的成绩对应的_id保存一下，留言页面跳转成绩要用
+	$.ajax({
+		type:"post",
+		url:"/users/getuserid",
+		data:{Name:str.Name,Grade:str.Grade,Class:str.Class},
+		success:function(data){	
+			if(data=='2'){
+				//alert("未找到成绩");
+			}
+		}
+	});
+</script>
+</body>
+</html>

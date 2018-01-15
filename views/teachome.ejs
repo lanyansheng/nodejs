@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>老师主页</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<%- include('head.ejs') %>
+	<p class='welcome_login'>尊敬的&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;老师,你好</p>
+	<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" class="active" ><a href="#">学生成绩汇入</a></li>
+  <li role="presentation"  id='message'><a href='#'>个人信息</a></li>
+  <li role="presentation"><a href='home/liuyan'>老师留言</a></li>
+</ul>
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+<div class="form-horizontal ">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">姓名</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="name">
+    </div>
+  </div>
+  						<!--成绩汇入区域-->
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">年级</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="grade">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label ">语文</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="Chinese" placeholder="chinese">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">数学</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="Math" placeholder="math">
+    </div>
+  </div>
+  					<!--下拉框选择班级-->
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label ">班级</label>
+    <div class="dropdown col-sm-4 ">
+        <select class="form-control ">
+            <option value="1" selected="selected">1班</option>
+            <option value="2">2班</option>
+            <option value="2">3班</option>
+        </select>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-5 col-sm-10">
+      <button type="button" class="btn btn-success chengji">保存成绩</button>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary  search_chengji " onclick="location.href = '/home/chengji'">查看学生成绩</button>
+<script type="text/javascript">
+		
+	$("#User").html("<%- username %>");
+	$(".nav>li").click(function(){
+		$(this).addClass("active").siblings().removeClass("active");		
+	})
+				// 查看个人信息
+	$("#message").click(function(){
+		var str = '<%- username %>' ;
+		$.ajax({
+			type:"post",
+			url:"/users/message?id="+str,
+			success:function(data){
+				if(data == '1'){
+				//	alert("有数据");	
+					location.href = '/home/message?status=2' 
+				}
+				if(data == '0'){
+				//	alert("无数据");
+					location.href='/home/message?status=1' ;
+				}
+			}
+		});
+	})
+	
+	$(".chengji").click(function(){
+		var str=$("option:selected").val() ;
+		$.ajax({
+			type:"post",
+			url:"/users/score",
+			data:{Name:$("#inputEmail3").val(),Grade:$("#inputPassword3").val(),Class:str,Math:$("#Math").val(),Chinese:$("#Chinese").val()},
+			success:function(data){
+				if(data == '1'){
+					alert("成绩保存成功！") ;
+					location.href = '/home?status=1';
+				}
+				if(data == '2'){
+					alert("该生成绩已存在！")
+				}
+			}
+		})
+	})
+</script>
+</body>
+</html>

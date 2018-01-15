@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>留言板</title>    
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/javascripts/xheditor/xheditor/xheditor-1.2.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/javascripts/xheditor/xheditor/xheditor_lang/zh-cn.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+  	<%- include('head.ejs') %>
+  	<p class='welcome_login'>欢迎回来！&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;同学</p>
+  	
+  	
+  <ul class="nav nav-pills nav-stacked">
+  <li role="presentation" ><a href="/home?status=2">个人信息</a></li>
+  <li role="presentation"  id='search_chengji'><a href='#'>学生成绩</a></li>
+  <li role="presentation" class="active"><a href='#'>学生留言</a></li>
+</ul>
+							<!--留言区域-->
+  	<input type="text" class="form-control title liuyan_table" placeholder="title">
+  	<textarea class="form-control content xheditor liuyan_content" rows="6" id="content"></textarea>
+  	<button type="button" class="btn btn-danger liuyan liuyan_button">提交留言</button>
+  								<!--留言信息展示区域-->
+  	<table class="table ">
+  		<tr>
+  			<th>序号</th>
+  			<th>名字</th>
+  			<th>身份</th>
+  			<th>标题</th>
+  			<th>内容</th>  	
+  			<th>操作</th>
+  		</tr>
+  		<% if(data){ %>
+  		<% data.map(function(item,i){ %>
+  				<tr>  						
+  					<td><%- (pagenum-1)*pagesize+i+1 %></td>
+  					<td><%- item.username %></td>
+  					<td><%- item.status %></td>
+  					<td><a href="/home/detail?id=<%- (pagenum-1)*pagesize+i %>"><%- item.title %></a></td>
+  					<td><%- item.content %></td>
+  					<td><button class="btn btn-success delete_liuyan" >删除</button></td>
+  					<!--<td><button class="btn btn-success cont_btn" data_id = "<%- item._id %>" > 点击查看</button></td>-->
+  				<!--//	<td><a  href="/detail/<%- i %>" > 点击查看</a></td>-->
+  				</tr>
+  		<%	})} %>
+  	</table>	
+  								<!--分页-->
+  	<nav aria-label="Page navigation">
+  <ul class="pagination" style="margin-left: 400px;">
+  	<li><a href="/home/stuliuyan?pagenum=1">首页</a></li>
+    <li>
+      <a href="/home/stuliuyan?pagenum=<%- pagenum<1?1:parseInt(pagenum)-1 %>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <% for(let i = 0 ; i < page ; i ++ ) {%>
+    		<li><a href="/home/stuliuyan?pagenum=<%- i+1 %>"><%- i+1 %></a></li>
+    <%}%>
+    <!--<li><a href="">1</a></li>
+    
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>-->
+    <li>
+      <a href="/home/stuliuyan?pagenum=<%- pagenum>page?page:parseInt(pagenum)+1 %>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    <li><a href="/home/stuliuyan?pagenum=<%- page %>">尾页</a></li>
+    <li><a href="#">共计<%- count %>条数据</a></li>
+  </ul>
+</nav>
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+<script src="/javascripts/fwb.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	var username = '<%- username %>' ;
+				//  保存留言到数据库
+	$(".liuyan").click(function(){
+		console.log("aaa");
+		$.ajax({
+			type:"post",
+			url:"/users/liuyan",
+			data:{username:username,title:$(".title").val(),content:$(".content").val(),status:'学生'},
+			success:function(data){
+				if(data == 1){
+					alert("上传成功 !") ;
+				}else{
+					alert("上传失败 ！") ;
+				}
+				setTimeout(function(){
+					location.href = '/home/stuliuyan' ;
+				},1000)
+			}
+		});
+	})
+	//  点击该标题对应的内容展示
+	$(".cont_btn").click(function(){
+		
+		$.ajax({
+			type:"post",
+			url:"/users/check",
+			data:{_id:$(this).attr('data_id')},
+			success:function(data){
+				alert(data);
+			}
+		});
+	})
+	$(".delete_liuyan").click(function(){
+			 var _id = $(this).parent().parent().index()-1;
+			 var str =Number('<%- (pagenum-1)*pagesize %>')+_id ;
+			 console.log(str);
+			 var pagenum = '<%- pagenum %>' ;
+			 console.log(pagenum);
+		$.ajax({
+			type:"post",
+			url:"/users/delete?id="+str,
+			success:function(data){
+				if(data=='1'){
+					alert('删除留言成功!') ;
+					location.href='/home/stuliuyan?pagenum='+pagenum;
+				}
+			}
+		});
+	})
+	// 查看成绩，通过session保存的_id值查看，费了好大劲也没弄好  还是有问题 ！！！
+	$("#search_chengji").click(function(){
+			var con = '<%- id %>';
+			if(con){
+				
+		$.ajax({
+			type:"get",
+			url:'/home/showchengji?id='+con,
+			success:function(data){	
+				if(data){				
+					location.href='/home/showchengji?id='+con ;
+				}
+			}
+		})
+		}else{
+				alert("未找到成绩！") ;
+			}
+	})
+	
+	
+</script>
+  </body>
+</html>

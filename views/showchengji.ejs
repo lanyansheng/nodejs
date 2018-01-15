@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>个人成绩</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<%- include('head.ejs') %>
+	<p class='welcome_login'>欢迎回来！&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;同学</p>
+	<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" ><a href="/home?status=2">个人信息</a></li>
+  <li role="presentation" class="active" id='search_chengji'><a href='#'>学生成绩</a></li>
+  <li role="presentation"><a href='/home/stuliuyan'>学生留言</a></li>
+</ul>
+						<!--显示学生的成绩区域-->
+<ul id='ul_mess'>
+	<li><span>姓名：</span><%- Name %></li>
+	
+	<li><span>班级：</span><%- Grade %>年级<%- Class %>班</li>
+	<li class='chengji_color'><span>数学：</span><%- Math %></li>
+	<li class='chengji_color'><span>语文：</span><%- Chinese %></li>
+	<li class='chengji_Total'><span>总分：</span><%- Total %></li>
+</ul>
+
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+
+</body>
+</html>

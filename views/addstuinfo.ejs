@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>请上传个人信息</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+     <!--<script src="/javascripts/nav.js" type="text/javascript" charset="utf-8"></script>-->
+</head>
+<body>
+	<%- include('head.ejs') %>
+	<p class='welcome_login'>欢迎回来！&nbsp;&nbsp;<span><%- username %></span>&nbsp;&nbsp;同学</p>
+	<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" class="active" ><a href="#">个人信息</a></li>
+  <li role="presentation"  id='search_chengji'><a href='#'>学生成绩</a></li>
+  <li role="presentation" id = 'to_liuyan'><a href='home/stuliuyan'>学生留言</a></li>
+</ul>
+						<!--上传学生信息填写区域-->
+<div class="form-horizontal ">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">姓名</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">年龄</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">年级</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control Grade" id="inputPassword3" placeholder="">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label ">班级</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control Class" id="inputPassword3" placeholder="">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-5 col-sm-10">
+      <button type="button" class="btn btn-success register">保存资料</button>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-danger zhuxiao" onclick="location.href='/relogin'">注销</button>
+<p class='Reminder'>您还没有上传你的个人信息，请填写</p>
+
+<!--<button type="button" class="btn btn-primary  message ">修改个人资料</button>-->
+<script type="text/javascript">
+	// 特别修改，因为当前页面是上传个人信息，是没有对应成绩的，但点击学生成绩的时候还是会'active'样式改变，所以单独设置留言跳转
+	$("#to_liuyan").click(function(){
+		$(this).addClass("active").siblings().removeClass("active");
+	})
+	// 学生个人信息上传 
+	$(".register").click(function(){
+		var username = '<%- username %>' ;
+		console.log(username);
+		$.ajax({
+			type:"post",
+			url:"/users/save_stuinfo",
+			data:{username:username,Name:$("#inputEmail3").val(),age:$("#inputPassword3").val(),Class:$(".Class").val(),Grade:$(".Grade").val()},
+			success:function(data){
+				if(data == '1'){
+					alert("资料保存成功！");
+					location.href = '/home?status=2' ; 
+				}else{
+					alert('资料保存失败!');
+				}
+			}
+		})
+	})
+	
+	$("#search_chengji").click(function(){
+		alert("请上传个人信息！") 
+//		location.href = '/home?status=2';
+	})
+	
+</script>
+</body>
+</html>

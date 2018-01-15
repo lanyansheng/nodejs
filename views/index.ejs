@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>XX市X中管理系统</title>   
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    		<%- include('head.ejs') %>
+				<h2>XX市X中欢迎您！</h2>
+				<p>没有账号？请注册</p>
+				<div class="form-horizontal ">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">账号</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="user">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">密码</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-4 control-label">身份</label>
+    <div class="dropdown col-sm-4 ">
+        <select class="form-control ">
+            <option value="1" selected="selected">老师</option>
+            <option value="2">学生</option>
+        </select>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-5 col-sm-10">
+      <button type="button" class="btn btn-primary login">登录</button>
+    </div>
+  </div>
+</div>
+				<button type="button" class="btn btn-success register index_register" onclick='location.href="/register"'>注册</button>	
+<script type="text/javascript">
+	$(".login").click(function() {
+		var str = $("option:selected").val();
+		$.ajax({
+			type: "post",
+			url: "/users/login",
+			data: { user: $("#inputEmail3").val(), psw: $("#inputPassword3").val(), status: str },
+			success: function(data) {
+					if(data == '0'){
+						alert("账号密码不一致!")
+					}else if(data == '1'){
+						alert("登录成功！")
+					setTimeout(function(){
+						location.href = '/home?status=1'
+					},1000)
+					}else if(data == '2'){
+						alert("登录成功！")
+						setTimeout(function(){
+						location.href = '/home?status=2'
+					},1000)
+					}else{
+						alert("登录失败！")
+					}
+			}
+		})
+	})
+</script>
+  </body>
+</html>

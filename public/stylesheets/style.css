@@ -1,0 +1,154 @@
+*{
+	margin:  0 ;
+	padding: 0 ;
+}
+header{
+	width: 100%;
+	height: 60px;
+	font-size: 30px;
+	color: #fff;
+	background: #666;
+	line-height: 60px;
+	text-align: center;
+	margin-bottom: 30px;
+}
+.login , .register,.chengji{
+	width: 100px;
+}
+
+.index_register{
+	position: absolute;
+	left: 0 ;
+	top:200px;
+}
+.nav li {
+	width: 200px;
+}
+.message{
+	position: absolute;
+	top:100px ;
+	right:150px;
+}
+#ul_mess{
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	
+	
+}
+#ul_mess li {
+	margin: 10px 0;
+	list-style: none;
+	width: 200px;
+	height: 36px;
+	color: palevioletred;
+	font-size: 16px;
+	line-height: 36px;
+	border-bottom: 1px solid #cecece;
+	text-align: left;
+}
+#ul_mess li span{
+	font-size: 16px;
+	color:slateblue;
+	text-align: left;
+	width: 100px;
+	display: inline-block;
+}
+#ul_mess li input{
+	text-align: center;
+	width: 150px;
+	display: inline-block;
+}
+.zhuxiao{
+	position: absolute;
+	right: 50px;
+	top:100px;
+}
+.save_message{
+	position: absolute;
+	top:430px;
+	left:600px;
+}
+.liuyan_table{
+	position: absolute;
+	top:100px;
+	right:300px;
+	width: 40%;
+	
+	
+}
+.xheLayout{
+	position: absolute;
+	top:140px;
+	width: 65%!important;
+	margin-left: 300px!important;
+}
+.liuyan_button{
+	margin-top: 55px;
+	margin-left: 50%;
+	margin-bottom: 15px;
+}
+.chengjibiaoge{
+	margin-top: 60px;
+}
+.search_chengji{
+	position: absolute;
+	top:100px;
+	right:150px;
+}
+.welcome_login{
+	margin-left: 30px;
+	font-size: 20px;
+}
+.welcome_login span{
+	color :plum ;
+}
+
+#ul_changemess{
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	;
+	
+}
+#ul_changemess li {
+	margin: 10px 0;
+	list-style: none;
+	width: 400px;
+	
+	color: palevioletred;
+	font-size: 16px;
+	line-height: 36px;
+	
+	text-align: left;
+}
+#ul_changemess li span{
+	font-size: 16px;
+	color:slateblue;
+	text-align: left;
+	width: 100px;
+	display: inline-block;
+}
+#ul_changemess li input{
+	text-align: center;
+	width: 150px;
+	display: inline-block;
+	border: 1px solid #cecece;
+	border-radius: 5px;
+}
+.Reminder{
+	position: absolute;
+	top: 150px;
+	left: 38%;
+	color: slateblue;
+	font-size: 16px;
+}
+.chengji_color{
+	color:red!important;
+}
+.chengji_Total{
+	color:green!important;
+	font-weight: 700;
+}
+
+
